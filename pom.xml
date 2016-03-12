@@ -29,7 +29,7 @@
 
     <scm>
         <connection>scm:git:git@github.com:tourniquet-io/${project.name}.git</connection>
-        <developerConnection>scm:git:git@github.com:tourniquet-io/${project.name}.git</developerConnection>
+        <developerConnection>scm:git:ssh://git@bitbucket.org/devcon5/${project.name}.git</developerConnection>
         <url>git@github.com:tourniquet-io/${project.name}.git</url>
     </scm>
 
@@ -123,6 +123,10 @@
     <profiles>
         <profile>
             <id>release</id>
+            <!--
+              the release profile is used by the build server to enable jar signing, and the jgit flow. It should
+              not be used by developers directly.
+            -->
             <build>
                 <plugins>
                     <plugin>
@@ -199,6 +203,13 @@
         </profile>
         <profile>
             <id>qa</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <!--
+                the QA profile is active by default and enables code-coverage analysis using jacoco and sets
+                default settings for the surefire plugin
+            -->
             <build>
                 <plugins>
                     <plugin>
@@ -257,6 +268,10 @@
         </profile>
         <profile>
             <id>pit</id>
+            <!--
+                Enable this profile for running mutation tests in the verify phase. Mutation tests require a lot of
+                CPU and still take quite some time. May be run locally as well as on the build server.
+            -->
             <build>
                 <plugins>
                     <plugin>
@@ -295,6 +310,5 @@
             </build>
         </profile>
     </profiles>
-
 
 </project>
